@@ -3,21 +3,22 @@
 //  Metta
 //
 //  Meditation session screen
+//  Metta Labs Brand System Applied
 //
 
 import SwiftUI
 
 struct SessionView: View {
-    @State private var selectedDuration = 5 // minutes
+    @State private var selectedDuration = 5
     @State private var isSessionActive = false
-    @State private var timeRemaining = 300 // seconds
+    @State private var timeRemaining = 300
     
     let durations = [3, 5, 10, 15, 20]
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(hex: "121214")
+                Color.dark
                     .ignoresSafeArea()
                 
                 if isSessionActive {
@@ -32,43 +33,41 @@ struct SessionView: View {
     }
     
     private var setupView: some View {
-        VStack(spacing: 32) {
-            // Metta phrase
-            VStack(spacing: 12) {
+        VStack(spacing: MettaSpacing.xl) {
+            // Metta phrase - Brand Gold
+            VStack(spacing: MettaSpacing.sm) {
                 Image(systemName: "heart.fill")
                     .font(.system(size: 60))
-                    .foregroundColor(Color(hex: "2DD4BF"))
+                    .foregroundColor(.mettaGold)  // Brand
+                    .mettaGoldAccent()
                 
                 Text("Metta Meditation")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .font(MettaTypography.title1)
+                    .foregroundColor(.cream)
                 
                 Text("May all beings be happy")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .font(MettaTypography.subheadline)
+                    .foregroundColor(.lightGray)
             }
-            .padding(.top, 40)
+            .padding(.top, MettaSpacing.xxxl)
             
             // Duration selector
-            VStack(spacing: 16) {
+            VStack(spacing: MettaSpacing.md) {
                 Text("Duration")
-                    .font(.headline)
-                    .foregroundColor(.white)
+                    .font(MettaTypography.bodyBold)
+                    .foregroundColor(.cream)
                 
-                HStack(spacing: 12) {
+                HStack(spacing: MettaSpacing.sm + 4) {
                     ForEach(durations, id: \.self) { duration in
-                        Button(action: {
-                            selectedDuration = duration
-                        }) {
+                        Button(action: { selectedDuration = duration }) {
                             Text("\(duration)")
-                                .font(.headline)
-                                .foregroundColor(selectedDuration == duration ? Color(hex: "121214") : .white)
+                                .font(MettaTypography.bodyBold)
+                                .foregroundColor(selectedDuration == duration ? .dark : .cream)
                                 .frame(width: 50, height: 50)
                                 .background(
                                     selectedDuration == duration
-                                    ? Color(hex: "2DD4BF")
-                                    : Color(hex: "1A1D26")
+                                    ? Color.mettaGold  // Brand
+                                    : Color.cream.opacity(0.05)
                                 )
                                 .cornerRadius(25)
                         }
@@ -76,73 +75,69 @@ struct SessionView: View {
                 }
                 
                 Text("\(selectedDuration) minutes")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .font(MettaTypography.subheadline)
+                    .foregroundColor(.lightGray)
             }
             
             Spacer()
             
-            // Start button
-            Button(action: {
-                startSession()
-            }) {
+            // Start button - Brand Gold
+            Button(action: startSession) {
                 Text("Begin Practice")
-                    .font(.headline)
-                    .foregroundColor(Color(hex: "121214"))
+                    .font(MettaTypography.bodyBold)
+                    .foregroundColor(.dark)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(Color(hex: "2DD4BF"))
-                    .cornerRadius(12)
+                    .padding(.vertical, MettaSpacing.md + 2)
+                    .background(Color.mettaGold)  // Brand
+                    .cornerRadius(MettaCornerRadius.medium)
             }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 40)
+            .padding(.horizontal, MettaSpacing.screenPadding)
+            .padding(.bottom, MettaSpacing.xxxl)
         }
     }
     
     private var activeSessionView: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: MettaSpacing.xxl) {
             Spacer()
             
-            // Breathing circle
+            // Breathing circle - Brand Gold
             ZStack {
                 Circle()
-                    .stroke(Color(hex: "2DD4BF").opacity(0.3), lineWidth: 4)
+                    .stroke(Color.mettaGold.opacity(0.3), lineWidth: 4)
                     .frame(width: 200, height: 200)
                 
                 Circle()
-                    .fill(Color(hex: "2DD4BF").opacity(0.2))
+                    .fill(Color.mettaGold.opacity(0.2))
                     .frame(width: 160, height: 160)
                 
-                VStack(spacing: 8) {
+                VStack(spacing: MettaSpacing.xs) {
                     Text(timeString)
                         .font(.system(size: 48, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cream)
                     
                     Text("Breathe")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .font(MettaTypography.subheadline)
+                        .foregroundColor(.lightGray)
                 }
             }
             
             // Metta phrase
             Text("May I be happy, may I be healthy")
-                .font(.title3)
-                .foregroundColor(.white)
+                .font(MettaTypography.title3)
+                .foregroundColor(.cream)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
+                .padding(.horizontal, MettaSpacing.xxl)
             
             Spacer()
             
             // End button
-            Button(action: {
-                isSessionActive = false
-            }) {
+            Button(action: { isSessionActive = false }) {
                 Text("End Session")
-                    .font(.headline)
+                    .font(MettaTypography.bodyBold)
                     .foregroundColor(.red)
-                    .padding(.vertical, 16)
+                    .padding(.vertical, MettaSpacing.md)
             }
-            .padding(.bottom, 40)
+            .padding(.bottom, MettaSpacing.xxxl)
         }
     }
     

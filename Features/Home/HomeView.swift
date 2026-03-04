@@ -3,6 +3,7 @@
 //  Metta
 //
 //  Home screen with daily greeting and quick start
+//  Metta Labs Brand System Applied
 //
 
 import SwiftUI
@@ -23,12 +24,12 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Dark background
-                Color(hex: "121214")
+                // Brand: Cream background (dark mode: dark)
+                Color.dark
                     .ignoresSafeArea()
                 
                 ScrollView {
-                    VStack(spacing: 24) {
+                    VStack(spacing: MettaSpacing.lg) {
                         // Header
                         headerSection
                         
@@ -41,7 +42,7 @@ struct HomeView: View {
                         // Quick start
                         quickStartSection
                     }
-                    .padding(20)
+                    .padding(MettaSpacing.screenPadding)
                 }
             }
             .navigationTitle("Metta")
@@ -50,29 +51,29 @@ struct HomeView: View {
     }
     
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: MettaSpacing.xxs) {
             Text(greeting)
-                .font(.subheadline)
-                .foregroundColor(.gray)
+                .font(MettaTypography.subheadline)
+                .foregroundColor(.lightGray)
             
             Text("Ready for your practice?")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+                .font(MettaTypography.title2)
+                .fontWeight(.medium)
+                .foregroundColor(.cream)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private var dailyCard: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: MettaSpacing.md) {
             HStack {
                 Image(systemName: "heart.fill")
                     .font(.title2)
-                    .foregroundColor(Color(hex: "2DD4BF"))
+                    .foregroundColor(.mettaGold)  // Brand accent
                 
                 Text("Today's Metta")
-                    .font(.headline)
-                    .foregroundColor(.white)
+                    .font(MettaTypography.bodyBold)
+                    .foregroundColor(.cream)
                 
                 Spacer()
                 
@@ -83,54 +84,46 @@ struct HomeView: View {
             }
             
             Text("May I be happy, may I be healthy, may I be at peace.")
-                .font(.subheadline)
-                .foregroundColor(.gray)
+                .font(MettaTypography.body)
+                .foregroundColor(.lightGray)
             
             Button(action: {}) {
                 Text(todayCompleted ? "Completed ✓" : "Start Practice")
-                    .font(.headline)
-                    .foregroundColor(Color(hex: "121214"))
+                    .font(MettaTypography.bodyBold)
+                    .foregroundColor(.dark)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
+                    .padding(.vertical, MettaSpacing.sm + 2)
                     .background(
                         todayCompleted 
-                        ? Color.gray.opacity(0.3)
-                        : Color(hex: "2DD4BF")
+                        ? Color.lightGray.opacity(0.3)
+                        : Color.mettaGold  // Brand primary
                     )
-                    .cornerRadius(12)
+                    .cornerRadius(MettaCornerRadius.medium)
             }
             .disabled(todayCompleted)
         }
-        .padding(20)
-        .background(Color(hex: "1A1D26"))
-        .cornerRadius(16)
+        .padding(MettaSpacing.cardPadding)
+        .background(Color.cream.opacity(0.05))  // Subtle card
+        .cornerRadius(MettaCornerRadius.large)
     }
     
     private var streakSection: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: MettaSpacing.md) {
             StreakCard(title: "Current", value: "\(currentStreak)", icon: "flame.fill", color: .orange)
-            StreakCard(title: "Total", value: "12", icon: "star.fill", color: Color(hex: "2DD4BF"))
+            StreakCard(title: "Total", value: "12", icon: "star.fill", color: .mettaGold)  // Brand
             StreakCard(title: "Days", value: "8", icon: "calendar", color: .purple)
         }
     }
     
     private var quickStartSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: MettaSpacing.sm) {
             Text("Quick Start")
-                .font(.headline)
-                .foregroundColor(.white)
+                .font(MettaTypography.bodyBold)
+                .foregroundColor(.cream)
             
-            QuickStartButton(duration: "3 min", title: "Short") {
-                // Start 3 min session
-            }
-            
-            QuickStartButton(duration: "5 min", title: "Standard") {
-                // Start 5 min session
-            }
-            
-            QuickStartButton(duration: "10 min", title: "Extended") {
-                // Start 10 min session
-            }
+            QuickStartButton(duration: "3 min", title: "Short") {}
+            QuickStartButton(duration: "5 min", title: "Standard") {}
+            QuickStartButton(duration: "10 min", title: "Extended") {}
         }
     }
 }
@@ -142,24 +135,24 @@ struct StreakCard: View {
     let color: Color
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: MettaSpacing.xs) {
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundColor(color)
             
             Text(value)
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+                .font(MettaTypography.title2)
+                .fontWeight(.medium)
+                .foregroundColor(.cream)
             
             Text(title)
-                .font(.caption)
-                .foregroundColor(.gray)
+                .font(MettaTypography.caption)
+                .foregroundColor(.lightGray)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
-        .background(Color(hex: "1A1D26"))
-        .cornerRadius(12)
+        .padding(.vertical, MettaSpacing.md)
+        .background(Color.cream.opacity(0.05))
+        .cornerRadius(MettaCornerRadius.medium)
     }
 }
 
@@ -172,21 +165,21 @@ struct QuickStartButton: View {
         Button(action: action) {
             HStack {
                 Text(duration)
-                    .font(.headline)
-                    .foregroundColor(.white)
+                    .font(MettaTypography.bodyBold)
+                    .foregroundColor(.cream)
                 
                 Spacer()
                 
                 Text(title)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .font(MettaTypography.subheadline)
+                    .foregroundColor(.lightGray)
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
+                    .foregroundColor(.lightGray)
             }
-            .padding(16)
-            .background(Color(hex: "1A1D26"))
-            .cornerRadius(12)
+            .padding(MettaSpacing.md)
+            .background(Color.cream.opacity(0.05))
+            .cornerRadius(MettaCornerRadius.medium)
         }
     }
 }
